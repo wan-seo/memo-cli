@@ -2,10 +2,22 @@ package memo
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 )
+
+func ReadMemo(title string) (result []byte) {
+	memoPath := os.Getenv("MEMOPATH")
+	data, err := os.Open(filepath.Join(memoPath, title))
+	defer data.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+	d, _ := ioutil.ReadAll(data)
+	return d
+}
 
 func CreateMemo(title string) (result string) {
 	memoPath := os.Getenv("MEMOPATH")
